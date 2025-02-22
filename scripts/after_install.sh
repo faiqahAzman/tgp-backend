@@ -16,6 +16,9 @@ pip3 install --upgrade pip
 pip3 install -r requirements.txt
 pip3 install gunicorn uvicorn
 
+# Make all scripts executable
+sudo chmod +x /opt/fastapi/scripts/*.sh
+
 # Create FastAPI log directory
 sudo mkdir -p /var/log/fastapi
 sudo chown ec2-user:ec2-user /var/log/fastapi
