@@ -33,7 +33,7 @@ After=network.target
 User=ec2-user
 WorkingDirectory=/opt/fastapi
 Environment="PATH=/opt/fastapi/venv/bin"
-ExecStart=/opt/fastapi/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --workers 3
+ExecStart=/opt/fastapi/venv/bin/uvicorn main:app --host 0.0.0.0 --port 80 --workers 3
 Restart=always
 
 [Install]
