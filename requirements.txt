@@ -2,7 +2,6 @@ fastapi
 uvicorn[standard]
 gunicorn
 httpx
-kafka-python
 python-dotenv
-pydantic
-pydantic-settings
+redis
+dotenv
