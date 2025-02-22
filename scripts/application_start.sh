@@ -14,5 +14,4 @@ exec uvicorn main:app \
     --port 80 \
     --workers 3 \
     --log-level info \
-    --access-log \
-    --use-colors false
+    --access-log
