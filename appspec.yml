@@ -1,10 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: /  # source from the root of the repo (excluding scripts)
+  - source: /
     destination: /opt/fastapi
-  - source: scripts/  # includes all scripts from your repo
-    destination: /opt/fastapi/scripts/
 
 hooks:
   BeforeInstall:
