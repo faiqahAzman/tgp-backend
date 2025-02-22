@@ -1,15 +1,9 @@
 #!/bin/bash
 set -e
 
-echo "Checking for existing FastAPI process..."
-if pgrep -f "gunicorn main:app"; then
-    echo "Stopping existing FastAPI process..."
-    sudo pkill -f "gunicorn main:app" || true
-fi
+echo "Stopping FastAPI application..."
 
-# Backup logs if they exist
-if [ -d "/var/log/fastapi" ]; then
-    echo "Backing up logs..."
-    sudo mkdir -p /opt/fastapi/logs_backup
-    sudo cp /var/log/fastapi/* /opt/fastapi/logs_backup/ || true
-fi
+# Find and kill any running uvicorn processes
+pkill -f "uvicorn main:app" || true
+
+echo "FastAPI application stopped"
