@@ -7,7 +7,7 @@ sudo ./start_server.sh
 
 # Health check
 for i in {1..30}; do
-    if curl -s http://localhost:8000/health; then
+    if curl -s http://localhost:80/health; then
         echo "Application started successfully"
         exit 0
     fi
