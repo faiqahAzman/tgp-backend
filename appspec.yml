@@ -1,29 +1,29 @@
 version: 0.0
 os: linux
 files:
-  - source: appspec.yml
+  - source: /
     destination: /opt/fastapi
   - source: scripts/
     destination: /opt/fastapi/scripts/
 
 hooks:
   BeforeInstall:
-    - location: /opt/fastapi/scripts/before_install.sh
+    - location: scripts/before_install.sh
       timeout: 300
       runas: root
   Install:
-    - location: /opt/fastapi/scripts/install.sh
+    - location: scripts/install.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: /opt/fastapi/scripts/after_install.sh
+    - location: scripts/after_install.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: /opt/fastapi/scripts/application_start.sh
+    - location: scripts/application_start.sh
       timeout: 300
       runas: root
   ApplicationStop:
-    - location: /opt/fastapi/scripts/application_stop.sh
+    - location: scripts/application_stop.sh
       timeout: 300
       runas: root

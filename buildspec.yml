@@ -14,15 +14,12 @@ phases:
   post_build:
     commands:
       - echo "Stopping existing application..."
-      - pkill -f "uvicorn" || true  # Replace with your actual stopping command
-      - echo "Packaging application..."
-      - ls -lah  # Check what files exist
-      - echo "Uploading artifact to S3..."
-      -  aws s3 cp deployment/ s3://paynet-tgp-bucket-1/tgp-backend-build/backend/tgp-backend-pipeline/ --recursive
+      - pkill -f "uvicorn" || true
+      - echo "Preparing for deployment..."
+      - ls -lah
 
-    
 artifacts:
   files:
-    - appspec.yml
-    - deployment_package.zip
+    - '**/*'  # Include all files
+  base-directory: '.'  # Use current directory as base
   discard-paths: no
