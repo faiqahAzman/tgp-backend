@@ -2,8 +2,8 @@
 set -e
 
 echo "Starting FastAPI application..."
-# Start the service
-sudo systemctl start fastapi.service
+cd /opt/fastapi
+sudo ./start_server.sh
 
 # Health check
 for i in {1..30}; do

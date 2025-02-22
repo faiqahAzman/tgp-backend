@@ -15,26 +15,23 @@ sudo chown -R ec2-user:ec2-user /opt/fastapi
 source venv/bin/activate
 pip3 install --upgrade pip
 pip3 install -r requirements.txt
+pip3 install gunicorn uvicorn
 
-# Create systemd service file
-sudo tee /etc/systemd/system/fastapi.service << EOF
-[Unit]
-Description=FastAPI application
-After=network.target
-
-[Service]
-User=ec2-user
-WorkingDirectory=/opt/fastapi
-Environment="PATH=/opt/fastapi/venv/bin"
-ExecStart=/opt/fastapi/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
-Restart=always
-StandardOutput=append:/var/log/fastapi/fastapi.log
-StandardError=append:/var/log/fastapi/fastapi.error.log
-
-[Install]
-WantedBy=multi-user.target
+# Create a startup script
+sudo tee /opt/fastapi/start_server.sh << EOF
+#!/bin/bash
+cd /opt/fastapi
+source venv/bin/activate
+exec gunicorn main:app \
+    --workers 3 \
+    --worker-class uvicorn.workers.UvicornWorker \
+    --bind 0.0.0.0:8000 \
+    --log-level info \
+    --access-logfile /var/log/fastapi/access.log \
+    --error-logfile /var/log/fastapi/error.log \
+    --capture-output \
+    --daemon
 EOF
 
-# Reload systemd and enable service
-sudo systemctl daemon-reload
-sudo systemctl enable fastapi.service
+# Make the startup script executable
+sudo chmod +x /opt/fastapi/start_server.sh

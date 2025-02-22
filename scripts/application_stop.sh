@@ -1,12 +1,10 @@
 #!/bin/bash
 set -e
 
-echo "Checking if FastAPI service exists..."
-if systemctl list-unit-files | grep -q "fastapi.service"; then
-    echo "Stopping FastAPI Application..."
-    sudo systemctl stop fastapi.service || true
-else
-    echo "FastAPI service does not exist yet. Continuing..."
+echo "Checking for existing FastAPI process..."
+if pgrep -f "gunicorn main:app"; then
+    echo "Stopping existing FastAPI process..."
+    sudo pkill -f "gunicorn main:app" || true
 fi
 
 # Backup logs if they exist
