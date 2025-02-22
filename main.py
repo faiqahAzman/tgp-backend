@@ -1,50 +1,80 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from app.core.config import settings
-from app.api.endpoints import risk_indicators, risk_metrics
+import os
+import json
+import uuid
+import asyncio
+import redis
+from fastapi import FastAPI, HTTPException
+from dotenv import load_dotenv
 
-app = FastAPI(
-    title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+# Load environment variables
+load_dotenv()
+
+REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "")
+
+print(os.getenv("TOPICS_JSON", "{}"))
+# Load topics from ENV (JSON format)
+TOPICS = json.loads(os.getenv("TOPICS_JSON", "{}"))
+
+
+# Initialize Redis connection
+redis_client = redis.Redis(
+    host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD, decode_responses=True
 )
 
-# Set up CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI()
 
-# Include routers
-app.include_router(
-    risk_indicators.router,
-    prefix=f"{settings.API_V1_STR}/risk-indicators",
-    tags=["risk-indicators"]
-)
 
-app.include_router(
-    risk_metrics.router,
-    prefix=f"{settings.API_V1_STR}/risk-metrics",
-    tags=["risk-metrics"]
-)
+async def wait_for_response(request_id: str, timeout: int = 5):
+    """Wait asynchronously for a response from Redis."""
+    start_time = asyncio.get_event_loop().time()
+    response_key = f"response:{request_id}"
 
-# @app.on_event("shutdown")
-# async def shutdown_event():
-#     """Clean up resources on shutdown"""
-#     from app.services.kafka_producer import kafka_service
-#     kafka_service.close()
+    while asyncio.get_event_loop().time() - start_time < timeout:
+        response = redis_client.get(response_key)
+        if response:
+            redis_client.delete(response_key)  # Cleanup after reading
+            return json.loads(response)
+        await asyncio.sleep(0.1)  # Non-blocking wait
 
-@app.get("/")
-async def root():
-    """Root endpoint"""
-    return {
-        "message": "TGP Backend API",
-        "docs_url": "/docs",
-        "openapi_url": f"{settings.API_V1_STR}/openapi.json"
-    }
+    raise HTTPException(status_code=504, detail="Timeout waiting for response")
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+async def publish_and_wait(service_name: str, payload: dict):
+    """Publish request to a microservice and wait for a response."""
+    if service_name not in TOPICS:
+        raise HTTPException(status_code=400, detail=f"Service {service_name} not found")
+
+    request_id = str(uuid.uuid4())
+    payload["request_id"] = request_id
+
+    request_topic = TOPICS[service_name]["request"]
+    redis_client.publish(request_topic, json.dumps(payload))
+
+    return await wait_for_response(request_id)
+
+
+@app.get("/api/ms1")
+async def call_service1(param1: str):
+    return await publish_and_wait("ms1", {"param1": param1})
+
+
+@app.get("/api/ms2")
+async def call_service2(param1: str, param2: str):
+    return await publish_and_wait("ms2", {"param1": param1, "param2": param2})
+
+
+@app.get("/api/ms3")
+async def call_service3(param1: str, param2: int, param3: bool):
+    return await publish_and_wait("ms3", {"param1": param1, "param2": param2, "param3": param3})
+
+
+@app.get("/api/ms4")
+async def call_service4(param1: str, param2: str, param3: str):
+    return await publish_and_wait("ms4", {"param1": param1, "param2": param2, "param3": param3})
+
+
+@app.get("/api/ms5")
+async def call_service5(param1: str):
+    return await publish_and_wait("ms5", {"param1": param1})
