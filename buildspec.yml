@@ -17,7 +17,7 @@ phases:
       - pkill -f "uvicorn" || true  # Replace with your actual stopping command
       - echo "Packaging application..."
       - ls -lah  # Check what files exist
-      - zip -r deployment_package.zip . -x ".git/*"  # Ensure everything is included
+      - zip -r deployment_package.zip .
       - echo "Uploading artifact to S3..."
       - aws s3 cp deployment_package.zip s3://paynet-tgp-bucket-1/tgp-backend-build/backend/tgp-backend-pipeline/deployment_package.zip
 
