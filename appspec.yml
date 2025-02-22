@@ -1,12 +1,10 @@
 version: 0.0
 os: linux
 files:
-  - source: /appspec.yml
-    destination: /opt/fastapi/appspec.yml
-  - source: /scripts/**
+  - source: /  # source from the root of the repo
+    destination: /opt/fastapi
+  - source: scripts/  # includes all scripts from your repo
     destination: /opt/fastapi/scripts/
-  - source: /myapp/**
-    destination: /opt/fastapi/
 
 hooks:
   BeforeInstall:
@@ -18,7 +16,7 @@ hooks:
       timeout: 300
       runas: root
   AfterInstall:
-    - location: scripts/after_install.sh
+    - location: scripts/after_install.sh  # Just one occurrence
       timeout: 300
       runas: root
   ApplicationStart:
