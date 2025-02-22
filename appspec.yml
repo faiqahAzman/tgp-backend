@@ -1,8 +1,11 @@
 version: 0.0
 os: linux
 files:
-  - source: deployment_package.zip
+  - source: appspec.yml
     destination: /opt/fastapi
+  - source: scripts/
+    destination: /opt/fastapi/scripts/
+
 
 hooks:
   BeforeInstall:
