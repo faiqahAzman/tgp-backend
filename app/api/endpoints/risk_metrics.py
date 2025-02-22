@@ -1,95 +1,64 @@
 from fastapi import APIRouter, HTTPException
-from app.core.constants import RiskIndicator
-from app.services.worldbank import worldbank_service
+from app.services.redis_service import redis_service
 
 router = APIRouter()
 
 @router.get("/financial-inclusion")
-async def get_financial_inclusion_enhanced(year: int = 2021):
-    """
-    Get Financial Inclusion data with risk metrics
-    Includes risk level assessment and recommendations
-    """
+async def get_financial_inclusion():
+    """Get Financial Inclusion data from Redis"""
     try:
-        data = await worldbank_service.get_enhanced_data(RiskIndicator.FINANCIAL_INCLUSION, year)
-        return {
-            "indicator": "Financial Inclusion",
-            **data
-        }
+        data = await redis_service.get_data("financial_inclusion")
+        if data:
+            return {"indicator": "financial_inclusion", "data": data}
+        else:
+            raise HTTPException(status_code=404, detail="Financial Inclusion data not found")
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching enhanced financial inclusion data: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/digital-payments")
-async def get_digital_payments_enhanced(year: int = 2021):
-    """
-    Get Digital Payments data with risk metrics
-    Includes risk level assessment and recommendations
-    """
+async def get_digital_payments():
+    """Get Digital Payments data from Redis"""
     try:
-        data = await worldbank_service.get_enhanced_data(RiskIndicator.DIGITAL_PAYMENTS, year)
-        return {
-            "indicator": "Digital Payments",
-            **data
-        }
+        data = await redis_service.get_data("digital_payments")
+        if data:
+            return {"indicator": "digital_payments", "data": data}
+        else:
+            raise HTTPException(status_code=404, detail="Digital Payments data not found")
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching enhanced digital payments data: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/money-laundering")
-async def get_money_laundering_enhanced(year: int = 2021):
-    """
-    Get Money Laundering Risk data with risk metrics
-    Includes risk level assessment and recommendations
-    """
+async def get_money_laundering():
+    """Get Money Laundering data from Redis"""
     try:
-        data = await worldbank_service.get_enhanced_data(RiskIndicator.MONEY_LAUNDERING, year)
-        return {
-            "indicator": "Money Laundering Risk",
-            **data
-        }
+        data = await redis_service.get_data("money_laundering")
+        if data:
+            return {"indicator": "money_laundering", "data": data}
+        else:
+            raise HTTPException(status_code=404, detail="Money Laundering data not found")
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching enhanced money laundering risk data: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/unemployment")
-async def get_unemployment_enhanced(year: int = 2021):
-    """
-    Get Unemployment Rate data with risk metrics
-    Includes risk level assessment and recommendations
-    """
+async def get_unemployment():
+    """Get Unemployment data from Redis"""
     try:
-        data = await worldbank_service.get_enhanced_data(RiskIndicator.UNEMPLOYMENT, year)
-        return {
-            "indicator": "Unemployment Rate",
-            **data
-        }
+        data = await redis_service.get_data("unemployment")
+        if data:
+            return {"indicator": "unemployment", "data": data}
+        else:
+            raise HTTPException(status_code=404, detail="Unemployment data not found")
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching enhanced unemployment rate data: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/gdp-growth")
-async def get_gdp_growth_enhanced(year: int = 2021):
-    """
-    Get GDP Growth data with risk metrics
-    Includes risk level assessment and recommendations
-    """
+async def get_gdp_growth():
+    """Get GDP Growth data from Redis"""
     try:
-        data = await worldbank_service.get_enhanced_data(RiskIndicator.GDP_GROWTH, year)
-        return {
-            "indicator": "GDP Growth",
-            **data
-        }
+        data = await redis_service.get_data("gdp_growth")
+        if data:
+            return {"indicator": "gdp_growth", "data": data}
+        else:
+            raise HTTPException(status_code=404, detail="GDP Growth data not found")
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching enhanced GDP growth data: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=str(e))
