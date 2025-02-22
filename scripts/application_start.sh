@@ -3,4 +3,4 @@ set -e
 
 echo "Starting FastAPI application..."
 cd /opt/fastapi
-sudo ./start_server.sh
+sudo ./scripts/start_server.sh
