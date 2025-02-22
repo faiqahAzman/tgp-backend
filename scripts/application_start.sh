@@ -11,7 +11,7 @@ echo "$(date): Starting FastAPI application" >> /var/log/fastapi/startup.log
 # Run uvicorn directly
 exec uvicorn main:app \
     --host 0.0.0.0 \
-    --port 8000 \
+    --port 8080 \
     --workers 3 \
     --log-level info \
     --access-log
