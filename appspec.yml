@@ -1,10 +1,12 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /opt/fastapi
-  - source: scripts/
+  - source: /appspec.yml
+    destination: /opt/fastapi/appspec.yml
+  - source: /scripts/**
     destination: /opt/fastapi/scripts/
+  - source: /myapp/**
+    destination: /opt/fastapi/
 
 hooks:
   BeforeInstall:

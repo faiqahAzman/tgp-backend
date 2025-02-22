@@ -16,10 +16,11 @@ phases:
       - echo "Stopping existing application..."
       - pkill -f "uvicorn" || true
       - echo "Preparing for deployment..."
-      - ls -lah
+      # Optional: remove debug `ls -lah` and replace with packaging commands
+      - echo "Deployment preparation complete."
 
 artifacts:
   files:
-    - '**/*'  # Include all files
-  base-directory: '.'  # Use current directory as base
+    - '**/*'  # This will include everything, but you could be more specific if needed
+  base-directory: '.'  # Ensure this is pointing to the correct root if you want everything
   discard-paths: no
