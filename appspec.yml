@@ -6,25 +6,24 @@ files:
   - source: scripts/
     destination: /opt/fastapi/scripts/
 
-
 hooks:
   BeforeInstall:
-    - location: scripts/before_install.sh
+    - location: /opt/fastapi/scripts/before_install.sh
       timeout: 300
       runas: root
   Install:
-    - location: scripts/install.sh
+    - location: /opt/fastapi/scripts/install.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: scripts/after_install.sh
+    - location: /opt/fastapi/scripts/after_install.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: scripts/application_start.sh
+    - location: /opt/fastapi/scripts/application_start.sh
       timeout: 300
       runas: root
   ApplicationStop:
-    - location: scripts/application_stop.sh
+    - location: /opt/fastapi/scripts/application_stop.sh
       timeout: 300
       runas: root
