@@ -9,7 +9,7 @@ source venv/bin/activate
 echo "$(date): Starting FastAPI application" >> /var/log/fastapi/startup.log
 
 # Run uvicorn directly
-exec uvicorn main:app \
+uvicorn main:app \
     --host 0.0.0.0 \
     --workers 3 \
     --log-level info \
