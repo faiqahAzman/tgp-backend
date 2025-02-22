@@ -2,8 +2,6 @@
 set -e
 
 echo "Stopping FastAPI application..."
-
-# Find and kill any running uvicorn processes
-pkill -f "uvicorn main:app" || true
-
+sudo systemctl stop fastapi
 echo "FastAPI application stopped"
+exit 0

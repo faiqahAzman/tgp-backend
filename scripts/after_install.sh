@@ -23,5 +23,21 @@ sudo chmod +x /opt/fastapi/scripts/*.sh
 sudo mkdir -p /var/log/fastapi
 sudo chown ec2-user:ec2-user /var/log/fastapi
 
+# Create systemd service file
+sudo tee /etc/systemd/system/fastapi.service << EOF
+[Unit]
+Description=FastAPI application
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/opt/fastapi
+Environment="PATH=/opt/fastapi/venv/bin"
+ExecStart=/opt/fastapi/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --workers 3
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
 
 echo "FastAPI application installed and configured."

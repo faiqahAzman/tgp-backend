@@ -2,15 +2,11 @@
 set -e
 
 echo "Starting FastAPI application..."
-cd /opt/fastapi
-source venv/bin/activate
 
-# Log startup
-echo "$(date): Starting FastAPI application" >> /var/log/fastapi/startup.log
+# Reload systemd and start service
+sudo systemctl daemon-reload
+sudo systemctl start fastapi
+sudo systemctl enable fastapi
 
-# Run uvicorn directly
-uvicorn main:app \
-    --host 0.0.0.0 \
-    --workers 3 \
-    --log-level info \
-    --access-log
+echo "FastAPI application started"
+exit 0
