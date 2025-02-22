@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies..."
+      - pip install -r requirements.txt
+
+  build:
+    commands:
+      - echo "Running tests..."
+      # Add your test commands here (e.g., pytest)
+
+  post_build:
+    commands:
+      - echo "Stopping existing application..."
+      - sudo systemctl stop fastapi.service  # Or your process management
+      - echo "Packaging application..."
+      - zip -r deployment_package.zip * -x ".git/*" # Ignore .git directory
+
+      - echo "Uploading artifact to S3..."
+      - aws s3 cp deployment_package.zip s3://20250222-paynet-tgp-group3/backend/deployment_package.zip
+
+artifacts:
+  files:
+    - deployment_package.zip
+  discard-paths: yes

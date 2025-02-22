@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Distributions
+dist/
+build/
+sdist/
+*.egg-info/
+
+# Logging
+*.log
+
+# IDE related
+.idea/
+.vscode/
+*.swp
+
+# Python Packages
+*.egg
+
+# Secrets
+*.key
+*.pem
