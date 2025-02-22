@@ -19,7 +19,7 @@ phases:
       - ls -lah  # Check what files exist
       - zip -r deployment_package.zip . -x ".git/*"  # Ensure everything is included
       - echo "Uploading artifact to S3..."
-      - aws s3 cp deployment_package.zip s3://tgp-bucket-backend/backend/deployment_package.zip
+      - aws s3 cp deployment_package.zip s3://tgp-backend-bucket/tgp-backend-build/backend/deployment_package.zip
 
     
 artifacts:
