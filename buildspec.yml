@@ -25,4 +25,4 @@ phases:
 artifacts:
   files:
     - deployment_package.zip
-  discard-paths: yes
+  discard-paths: no
