@@ -23,21 +23,5 @@ sudo chmod +x /opt/fastapi/scripts/*.sh
 sudo mkdir -p /var/log/fastapi
 sudo chown ec2-user:ec2-user /var/log/fastapi
 
-# Create a startup script
-sudo tee /opt/fastapi/scripts/start_server.sh << 'EOF'
-#!/bin/bash
-source venv/bin/activate
-exec gunicorn main:app \
-    --workers 3 \
-    --worker-class uvicorn.workers.UvicornWorker \
-    --bind 0.0.0.0:8000 \
-    --log-level info \
-    --access-logfile /var/log/fastapi/access.log \
-    --error-logfile /var/log/fastapi/error.log
-EOF
-
-# Make the startup script executable
-sudo chmod +x /opt/fastapi/scripts/start_server.sh
-sudo chown ec2-user:ec2-user /opt/fastapi/scripts/start_server.sh
 
 echo "FastAPI application installed and configured."
