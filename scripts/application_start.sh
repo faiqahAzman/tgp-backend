@@ -3,7 +3,7 @@ set -e
 
 echo "Starting FastAPI application..."
 cd /opt/fastapi
-./start_server.sh
+sudo ./start_server.sh
 
 # Health check
 for i in {1..30}; do

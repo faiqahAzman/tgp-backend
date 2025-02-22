@@ -21,17 +21,16 @@ sudo mkdir -p /var/log/fastapi
 sudo chown ec2-user:ec2-user /var/log/fastapi
 
 # Create a startup script
-sudo tee /opt/fastapi/start_server.sh << EOF
+sudo tee /opt/fastapi/start_server.sh << 'EOF'
 #!/bin/bash
-@@ -31,7 +25,7 @@ source venv/bin/activate
+source venv/bin/activate
 exec gunicorn main:app \
     --workers 3 \
     --worker-class uvicorn.workers.UvicornWorker \
     --bind 0.0.0.0:8000 \
     --log-level info \
     --access-logfile /var/log/fastapi/access.log \
-    --error-logfile /var/log/fastapi/error.log \
-@@ -40,7 +34,4 @@ exec gunicorn main:app \
+    --error-logfile /var/log/fastapi/error.log
 EOF
 
 # Make the startup script executable
