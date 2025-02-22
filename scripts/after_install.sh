@@ -6,7 +6,7 @@ cd /opt/fastapi
 
 # Clean and unzip new deployment
 sudo rm -rf *  # Remove old files
-sudo unzip /opt/codedeploy-agent/deployment-root/2bdab103-e25c-4fc4-b7a7-7bd6837bbc8e/d-EQPJE0GSA/deployment-archive/deployment_package.zip
+sudo unzip deployment_package.zip
 
 # Set permissions
 sudo chown -R ec2-user:ec2-user /opt/fastapi
