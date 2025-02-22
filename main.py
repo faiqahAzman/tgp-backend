@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.endpoints import risk_indicators
+from app.api.endpoints import risk_indicators, risk_metrics
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -22,6 +22,12 @@ app.include_router(
     risk_indicators.router,
     prefix=f"{settings.API_V1_STR}/risk-indicators",
     tags=["risk-indicators"]
+)
+
+app.include_router(
+    risk_metrics.router,
+    prefix=f"{settings.API_V1_STR}/risk-metrics",
+    tags=["risk-metrics"]
 )
 
 # @app.on_event("shutdown")
