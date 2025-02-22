@@ -14,13 +14,14 @@ phases:
   post_build:
     commands:
       - echo "Stopping existing application..."
-      - sudo systemctl stop fastapi.service  # Or your process management
+      - pkill -f "uvicorn" || true  # Replace with your actual stopping command
       - echo "Packaging application..."
-      - zip -r deployment_package.zip * -x ".git/*" # Ignore .git directory
-
+      - ls -lah  # Check what files exist
+      - zip -r deployment_package.zip . -x ".git/*"  # Ensure everything is included
       - echo "Uploading artifact to S3..."
       - aws s3 cp deployment_package.zip s3://20250222-paynet-tgp-group3/backend/deployment_package.zip
 
+    
 artifacts:
   files:
     - deployment_package.zip
