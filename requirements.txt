@@ -1,3 +1,8 @@
 fastapi
 uvicorn[standard]
-gunicorn  # Required if you are using Gunicorn
+gunicorn
+httpx
+kafka-python
+python-dotenv
+pydantic
+pydantic-settings
