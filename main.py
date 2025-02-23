@@ -56,7 +56,7 @@ async def publish_and_wait(service_name: str, payload: dict):
 
 # TODO: Implement API routes to call microservices
 @app.get("/api/ms1")
-async def call_service1(param1: str):
+async def microservice01(param1: str):
     return await publish_and_wait("ms1", {"param1": param1})
 
 
