@@ -62,7 +62,7 @@ async def microservice01(param1: str):
 
 # TODO: Implement API routes to call microservices
 @app.get("/api/ms2")
-async def call_service2(param1: str, param2: str):
+async def microservice02(param1: str, param2: str):
     return await publish_and_wait("ms2", {"param1": param1, "param2": param2})
 
 
