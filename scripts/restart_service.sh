@@ -9,6 +9,7 @@ if [ -f /opt/tgp-backend/.env ]; then
     mv /opt/tgp-backend/.env /tmp/.env_backup
 fi
 
+pip install --upgrade pip
 pip install --no-cache-dir -r /opt/tgp-backend/requirements.txt
 
 # Ensure correct ownership

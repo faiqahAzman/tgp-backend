@@ -7,6 +7,10 @@ permissions:
   - object: /opt/tgp-backend
     owner: ec2-user
     group: ec2-user
+    mode: 755
+    type:
+      - directory
+      - file
 hooks:
   AfterInstall:
     - location: scripts/restart_service.sh
