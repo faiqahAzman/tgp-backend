@@ -13,10 +13,8 @@ REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "")
 
-print(os.getenv("TOPICS_JSON", "{}"))
 # Load topics from ENV (JSON format)
 TOPICS = json.loads(os.getenv("TOPICS_JSON", "{}"))
-
 
 # Initialize Redis connection
 redis_client = redis.Redis(
