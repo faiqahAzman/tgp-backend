@@ -11,7 +11,6 @@ chown -R ec2-user:ec2-user /opt/tgp-backend
 chmod -R 755 /opt/tgp-backend
 
 echo "Installing dependencies..."
-pip install --upgrade pip
 pip install --no-cache-dir -r /opt/tgp-backend/requirements.txt
 
 echo "AfterInstall script completed."
