@@ -5,6 +5,8 @@ import asyncio
 import redis
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # Load environment variables
 load_dotenv()
@@ -54,31 +56,35 @@ async def publish_and_wait(service_name: str, payload: dict):
     return await wait_for_response(request_id)
 
 
-# TODO: Implement API routes to call microservices
-@app.get("/api/ms1")
-async def microservice01(param1: str):
-    return await publish_and_wait("ms1", {"param1": param1})
+
 
 
 # TODO: Implement API routes to call microservices
-@app.get("/api/ms2")
-async def microservice02(param1: str, param2: str):
-    return await publish_and_wait("ms2", {"param1": param1, "param2": param2})
+@app.get("/api/financial-inclusion")
+async def call_service1(country: str, start_year: int, end_year: int):
+    return await publish_and_wait("ms1", {"country": country, "start_year": start_year, "end_year": end_year})
+    
 
 
 # TODO: Implement API routes to call microservices
-@app.get("/api/ms3")
-async def call_service3(param1: str, param2: int, param3: bool):
-    return await publish_and_wait("ms3", {"param1": param1, "param2": param2, "param3": param3})
+@app.get("/api/digital-payments")
+async def call_service2(country: str, start_year: int, end_year: int):
+    return await publish_and_wait("ms1", {"country": country, "start_year": start_year, "end_year": end_year})
 
 
 # TODO: Implement API routes to call microservices
-@app.get("/api/ms4")
-async def call_service4(param1: str, param2: str, param3: str):
-    return await publish_and_wait("ms4", {"param1": param1, "param2": param2, "param3": param3})
+@app.get("/api/money-laundering-risk")
+async def call_service3(country: str, start_year: int, end_year: int):
+    return await publish_and_wait("ms3", {"country": country, "start_year": start_year, "end_year": end_year})
 
 
 # TODO: Implement API routes to call microservices
-@app.get("/api/ms5")
-async def call_service5(param1: str):
-    return await publish_and_wait("ms5", {"param1": param1})
+@app.get("/api/unemployment-rate")
+async def call_service4(country: str, start_year: int, end_year: int):
+    return await publish_and_wait("ms4", {"country": country, "start_year": start_year, "end_year": end_year})
+
+
+# TODO: Implement API routes to call microservices
+@app.get("/api/gdp-growth")
+async def call_service5(country: str, start_year: int, end_year: int):
+    return await publish_and_wait("ms5", {"country": country, "start_year": start_year, "end_year": end_year})
