@@ -7,3 +7,4 @@ redis
 dotenv
 pytest
 pytest-asyncio
+python-multipart
