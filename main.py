@@ -149,3 +149,4 @@ async def health_check():
 @app.get("/")
 async def read_root():
     return {"message": "Hello World"}
+

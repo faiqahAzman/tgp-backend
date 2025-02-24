@@ -8,4 +8,5 @@ dotenv
 pytest
 pytest-asyncio
 python-multipart
-jwt
+pyjwt
+
