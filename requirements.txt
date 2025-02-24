@@ -5,3 +5,5 @@ httpx
 python-dotenv
 redis
 dotenv
+pytest
+pytest-asyncio

@@ -88,3 +88,18 @@ async def call_service4(country: str, start_year: int, end_year: int):
 @app.get("/api/gdp-growth")
 async def call_service5(country: str, start_year: int, end_year: int):
     return await publish_and_wait("ms5", {"country": country, "start_year": start_year, "end_year": end_year})
+
+
+@app.get("/health")
+async def health_check():
+  """
+  Health check endpoint.
+
+  Returns:
+      dict: A dictionary containing the status of the application.
+  """
+  return {"status": "ok"}
+
+@app.get("/")
+async def read_root():
+    return {"message": "Hello World"}
