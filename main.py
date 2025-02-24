@@ -149,6 +149,3 @@ async def health_check():
 @app.get("/")
 async def read_root():
     return {"message": "Hello World"}
-=======
-async def call_service5(country: str, start_year: int, end_year: int, user: str = Depends(get_current_user)):
-    return await publish_and_wait("ms5", {"country": country, "start_year": start_year, "end_year": end_year})
