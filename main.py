@@ -3,8 +3,6 @@ import json
 import uuid
 import asyncio
 import redis
-import firebase_admin
-from firebase_admin import auth, credentials
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends, Header, status, Form
@@ -134,5 +132,23 @@ async def call_service4(country: str, start_year: int, end_year: int, user: str 
 
 
 @app.get("/api/gdp-growth")
+async def call_service5(country: str, start_year: int, end_year: int):
+    return await publish_and_wait("ms5", {"country": country, "start_year": start_year, "end_year": end_year})
+
+
+@app.get("/health")
+async def health_check():
+  """
+  Health check endpoint.
+
+  Returns:
+      dict: A dictionary containing the status of the application.
+  """
+  return {"status": "ok"}
+
+@app.get("/")
+async def read_root():
+    return {"message": "Hello World"}
+=======
 async def call_service5(country: str, start_year: int, end_year: int, user: str = Depends(get_current_user)):
     return await publish_and_wait("ms5", {"country": country, "start_year": start_year, "end_year": end_year})
