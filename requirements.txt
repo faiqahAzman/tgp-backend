@@ -5,3 +5,4 @@ httpx
 python-dotenv
 redis
 dotenv
+python-multipart
