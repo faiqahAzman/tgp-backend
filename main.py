@@ -69,7 +69,7 @@ async def call_service1(country: str, start_year: int, end_year: int):
 # TODO: Implement API routes to call microservices
 @app.get("/api/digital-payments")
 async def call_service2(country: str, start_year: int, end_year: int):
-    return await publish_and_wait("ms1", {"country": country, "start_year": start_year, "end_year": end_year})
+    return await publish_and_wait("ms2", {"country": country, "start_year": start_year, "end_year": end_year})
 
 
 # TODO: Implement API routes to call microservices
